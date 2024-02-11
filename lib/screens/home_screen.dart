@@ -11,11 +11,12 @@ class HomeScreen extends StatelessWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     return Scaffold(
+      backgroundColor: const Color(0xFFEEEFF5),
       body: Stack(children: [
         Column(
           children: [
             Container(
-              height: deviceSize.height * 0.3,
+              height: deviceSize.height * 0.2,
               width: deviceSize.width,
               color: colors.primary,
               child: const Column(
@@ -35,6 +36,8 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const Gap(10),
+            const SearchBox(),
           ],
         ),
         Positioned(

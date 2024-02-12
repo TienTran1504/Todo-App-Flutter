@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/data/data.dart';
 import 'package:todoapp/utils/utils.dart';
 import 'package:todoapp/widgets/widgets.dart';
+import 'package:gap/gap.dart';
 
 class DisplayListOfTasks extends StatelessWidget {
   const DisplayListOfTasks(
@@ -23,12 +24,28 @@ class DisplayListOfTasks extends StatelessWidget {
               emptyTasksMessage,
               style: context.textTheme.headlineSmall,
             ))
-          : ListView.builder(
+          : ListView.separated(
               shrinkWrap: true,
               itemCount: tasks.length,
               padding: EdgeInsets.zero,
               itemBuilder: (ctx, index) {
-                return const Text('Home');
+                final task = tasks[index];
+                return InkWell(
+                  onLongPress: () {
+                    //TODO-Delete Task
+                  },
+                  onTap: () async {
+                    await showModalBottomSheet(
+                        context: context,
+                        builder: (ctx) {
+                          return TaskDetails(task: task);
+                        });
+                  },
+                  child: TaskTile(task: task),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider(thickness: 1.5);
               },
             ),
     );

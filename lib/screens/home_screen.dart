@@ -16,13 +16,13 @@ class HomeScreen extends StatelessWidget {
         Column(
           children: [
             Container(
-              height: deviceSize.height * 0.2,
+              height: deviceSize.height * 0.15,
               width: deviceSize.width,
               color: colors.primary,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Gap(50),
+                  Gap(20),
                   DisplayWhiteText(
                     text: 'Aug 7, 2023',
                     fontSize: 20,
@@ -38,6 +38,8 @@ class HomeScreen extends StatelessWidget {
             ),
             const Gap(10),
             const SearchBox(),
+            const Gap(10),
+            const CustomRadio(option: 0),
           ],
         ),
         Positioned(

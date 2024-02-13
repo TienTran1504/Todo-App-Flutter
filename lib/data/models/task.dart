@@ -59,4 +59,24 @@ class Task extends Equatable {
       isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
     );
   }
+
+  Task copyWith({
+    int? id,
+    String? title,
+    String? note,
+    String? time,
+    String? date,
+    TaskCategories? category,
+    bool? isCompleted,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      note: note ?? this.note,
+      time: time ?? this.time,
+      date: date ?? this.date,
+      category: category ?? this.category,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }

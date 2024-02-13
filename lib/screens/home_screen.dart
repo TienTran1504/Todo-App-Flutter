@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/config/routes/routes.dart';
 import 'package:todoapp/data/data.dart';
 import 'package:todoapp/utils/utils.dart';
 import 'package:gap/gap.dart';
 import 'package:todoapp/widgets/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
+  static HomeScreen builder(BuildContext context, GoRouterState state) =>
+      const HomeScreen();
   const HomeScreen({super.key});
 
   @override
@@ -23,15 +27,14 @@ class HomeScreen extends StatelessWidget {
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Gap(20),
                   DisplayWhiteText(
                     text: 'Aug 7, 2023',
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.normal,
                   ),
                   DisplayWhiteText(
                     text: 'My Todo List',
-                    fontSize: 30,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ],
@@ -115,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Gap(20),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => context.push(RouteLocation.createTask),
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: colors.primary,

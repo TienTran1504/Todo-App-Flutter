@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/config/routes/routes.dart';
 import 'package:todoapp/data/data.dart';
+import 'package:todoapp/providers/providers.dart';
 import 'package:todoapp/utils/utils.dart';
 import 'package:gap/gap.dart';
 import 'package:todoapp/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   static HomeScreen builder(BuildContext context, GoRouterState state) =>
       const HomeScreen();
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
+    final taskState = ref.watch(taskProvider);
+    final completedTasks = _completedTasks(taskState.tasks);
+    final incompletedTasks = _incompletedTasks(taskState.tasks);
     return Scaffold(
       backgroundColor: const Color(0xFFEEEFF5),
       body: Stack(children: [
@@ -57,25 +62,8 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const DisplayListOfTasks(
-                      tasks: [
-                        Task(
-                          title: 'title 1',
-                          note: '',
-                          time: '10:12',
-                          date: 'Aug 07',
-                          isCompleted: false,
-                          category: TaskCategories.shopping,
-                        ),
-                        Task(
-                          title: 'title 2',
-                          note: 'note 2',
-                          time: '13:12',
-                          date: 'Aug 07',
-                          isCompleted: false,
-                          category: TaskCategories.education,
-                        )
-                      ],
+                    DisplayListOfTasks(
+                      tasks: incompletedTasks,
                     ),
                     const Gap(20),
                     // const Text(
@@ -87,33 +75,8 @@ class HomeScreen extends StatelessWidget {
                       style: context.textTheme.headlineSmall,
                     ),
                     const Gap(20),
-                    const DisplayListOfTasks(
-                      tasks: [
-                        Task(
-                          title: 'title 3',
-                          note: 'note 3',
-                          time: '12:12',
-                          date: 'Aug 20',
-                          isCompleted: true,
-                          category: TaskCategories.personal,
-                        ),
-                        Task(
-                          title: 'title 4',
-                          note: 'note 4',
-                          time: '18:12',
-                          date: 'Aug 10',
-                          isCompleted: true,
-                          category: TaskCategories.work,
-                        ),
-                        Task(
-                          title: 'title 4',
-                          note: 'note 4',
-                          time: '18:12',
-                          date: 'Aug 10',
-                          isCompleted: true,
-                          category: TaskCategories.social,
-                        )
-                      ],
+                    DisplayListOfTasks(
+                      tasks: completedTasks,
                       isCompletedTasks: true,
                     ),
                     const Gap(20),
@@ -134,5 +97,25 @@ class HomeScreen extends StatelessWidget {
             ))
       ]),
     );
+  }
+
+  List<Task> _completedTasks(List<Task> tasks) {
+    final List<Task> filteredTasks = [];
+    for (var task in tasks) {
+      if (task.isCompleted) {
+        filteredTasks.add(task);
+      }
+    }
+    return filteredTasks;
+  }
+
+  List<Task> _incompletedTasks(List<Task> tasks) {
+    final List<Task> filteredTasks = [];
+    for (var task in tasks) {
+      if (!task.isCompleted) {
+        filteredTasks.add(task);
+      }
+    }
+    return filteredTasks;
   }
 }

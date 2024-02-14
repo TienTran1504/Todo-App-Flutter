@@ -56,10 +56,10 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
               CommonTextField(
                 title: 'Note',
                 hintText: 'Task Note',
-                maxLines: 6,
+                maxLines: 8,
                 controller: _noteController,
               ),
-              const Gap(60),
+              const Gap(70),
               ElevatedButton(
                 onPressed: _createTask,
                 style: ElevatedButton.styleFrom(

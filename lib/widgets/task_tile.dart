@@ -46,10 +46,20 @@ class TaskTile extends StatelessWidget {
                     fontWeight: fontWeight,
                   ),
                 ),
-                Text(
-                  task.time,
-                  style:
-                      style.titleMedium?.copyWith(decoration: textDecoration),
+                Row(
+                  children: [
+                    Text(
+                      task.date,
+                      style: style.titleMedium
+                          ?.copyWith(decoration: textDecoration),
+                    ),
+                    const Gap(10),
+                    Text(
+                      task.time,
+                      style: style.titleMedium
+                          ?.copyWith(decoration: textDecoration),
+                    ),
+                  ],
                 ),
               ],
             ),

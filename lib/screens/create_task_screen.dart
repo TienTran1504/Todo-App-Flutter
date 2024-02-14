@@ -40,7 +40,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               CommonTextField(

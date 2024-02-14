@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/providers/option_time/option_time_provider.dart';
 import 'package:todoapp/utils/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomRadio extends StatefulWidget {
+class CustomRadio extends ConsumerStatefulWidget {
   const CustomRadio({super.key, required this.option});
   final int option;
   @override
-  State<CustomRadio> createState() => _CutomRadioState();
+  ConsumerState<CustomRadio> createState() => _CutomRadioState();
 }
 
-class _CutomRadioState extends State<CustomRadio> {
+class _CutomRadioState extends ConsumerState<CustomRadio> {
   late int value;
   @override
   void initState() {
@@ -17,6 +19,8 @@ class _CutomRadioState extends State<CustomRadio> {
   }
 
   Widget customRadioButton(String text, int index) {
+    final optionValue = ref.watch(optionProvider).option;
+
     return Material(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       color: Colors.transparent,
@@ -25,20 +29,21 @@ class _CutomRadioState extends State<CustomRadio> {
           side: MaterialStateProperty.resolveWith<BorderSide>(
             (Set<MaterialState> states) {
               return BorderSide(
-                color: (value == index) ? Colors.purple : Colors.black,
+                color: (optionValue == index) ? Colors.purple : Colors.black,
               );
             },
           ),
         ),
         onPressed: () {
-          setState(() {
-            value = index;
-          });
+          ref.read(optionProvider.notifier).setOption(index);
+          // setState(() {
+          //   value = index;
+          // });
         },
         child: Text(
           text,
           style: TextStyle(
-            color: (value == index) ? Colors.purple : Colors.black,
+            color: (optionValue == index) ? Colors.purple : Colors.black,
           ),
         ),
       ),
@@ -47,15 +52,14 @@ class _CutomRadioState extends State<CustomRadio> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colorScheme;
     return Padding(
       padding: const EdgeInsets.only(left: 18.0), // Add left padding
       child: Row(
         children: <Widget>[
           customRadioButton("All", 0),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           customRadioButton("Today", 1),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           customRadioButton("Up Comming", 2),
         ],
       ),

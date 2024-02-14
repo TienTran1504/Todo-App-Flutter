@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/config/routes/routes.dart';
 import 'package:todoapp/data/data.dart';
+import 'package:todoapp/providers/option_time/option_time_provider.dart';
 import 'package:todoapp/providers/providers.dart';
+import 'package:todoapp/providers/search/search.dart';
 import 'package:todoapp/utils/utils.dart';
 import 'package:gap/gap.dart';
 import 'package:todoapp/widgets/widgets.dart';
@@ -19,8 +21,13 @@ class HomeScreen extends ConsumerWidget {
     final colors = context.colorScheme;
     final deviceSize = context.deviceSize;
     final taskState = ref.watch(taskProvider);
-    final completedTasks = _completedTasks(taskState.tasks, ref);
-    final incompletedTasks = _incompletedTasks(taskState.tasks, ref);
+    final option = ref.watch(optionProvider).option;
+    final search = ref.watch(searchProvider).search;
+    // final completedTasks = _completedTasks(taskState.tasks, ref);
+    // final incompletedTasks = _incompletedTasks(taskState.tasks, ref);
+    final completedTasks = _filterTasks(taskState.tasks, option, search, true);
+    final incompletedTasks =
+        _filterTasks(taskState.tasks, option, search, false);
     final selectedDate = ref.watch(dateProvider);
     final currentDate = DateTime.now();
     return Scaffold(
@@ -54,7 +61,7 @@ class HomeScreen extends ConsumerWidget {
             const Gap(10),
             const SearchBox(),
             const Gap(10),
-            const CustomRadio(option: 0),
+            CustomRadio(option: option),
           ],
         ),
         Positioned(
@@ -134,6 +141,31 @@ class HomeScreen extends ConsumerWidget {
         // }
       }
     }
+    return filteredTasks;
+  }
+
+  List<Task> _filterTasks(
+      List<Task> tasks, int option, String search, bool isCompleted) {
+    final currentDate = DateTime.now();
+    final List<Task> filteredTasks = [];
+
+    for (var task in tasks) {
+      final isTaskDay = Helpers.isTaskFromSelectedDate(task, currentDate);
+      if ((isCompleted && task.isCompleted ||
+              !isCompleted && !task.isCompleted) &&
+          (option == 0 ||
+              (option == 1 && isTaskDay) ||
+              (option == 2 && !isTaskDay))) {
+        if (search == '') {
+          filteredTasks.add(task);
+        } else {
+          if (task.title.toLowerCase().contains(search.toLowerCase())) {
+            filteredTasks.add(task);
+          }
+        }
+      }
+    }
+
     return filteredTasks;
   }
 }

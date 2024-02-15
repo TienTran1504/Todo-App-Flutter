@@ -3,7 +3,6 @@ import 'package:todoapp/data/data.dart';
 import 'package:todoapp/providers/providers.dart';
 import 'package:todoapp/utils/utils.dart';
 import 'package:todoapp/widgets/widgets.dart';
-import 'package:gap/gap.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DisplayListOfTasks extends ConsumerWidget {

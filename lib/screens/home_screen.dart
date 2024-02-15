@@ -22,12 +22,9 @@ class HomeScreen extends ConsumerWidget {
     final taskState = ref.watch(taskProvider);
     final option = ref.watch(optionProvider).option;
     final search = ref.watch(searchProvider).search;
-    // final completedTasks = _completedTasks(taskState.tasks, ref);
-    // final incompletedTasks = _incompletedTasks(taskState.tasks, ref);
     final completedTasks = _filterTasks(taskState.tasks, option, search, true);
     final incompletedTasks =
         _filterTasks(taskState.tasks, option, search, false);
-    final selectedDate = ref.watch(dateProvider);
     final currentDate = DateTime.now();
     return Scaffold(
       backgroundColor: const Color(0xFFEEEFF5),
@@ -103,55 +100,12 @@ class HomeScreen extends ConsumerWidget {
                         child: DisplayWhiteText(text: 'Add New Task'),
                       ),
                     ),
-                    const Gap(20),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.notification_add_outlined),
-                      onPressed: () async {
-                        // NotificationManager().simpleNotificationShow();
-                        // LocalNotifications.showSimpleNotification(
-                        //     title: 'title', body: 'body', payload: 'payload');
-                        await LocalNotifications.scheduleNotification();
-                      },
-                      label: Text('simple'),
-                    )
                   ],
                 ),
               ),
             ))
       ]),
     );
-  }
-
-  List<Task> _completedTasks(List<Task> tasks, WidgetRef ref) {
-    final selectedDate = ref.watch(dateProvider);
-    final currentDate = DateTime.now();
-    final List<Task> filteredTasks = [];
-    for (var task in tasks) {
-      if (task.isCompleted) {
-        final isTaskDay = Helpers.isTaskFromSelectedDate(task, currentDate);
-        filteredTasks.add(task);
-        // if (isTaskDay) {
-        //   filteredTasks.add(task);
-        // }
-      }
-    }
-    return filteredTasks;
-  }
-
-  List<Task> _incompletedTasks(List<Task> tasks, WidgetRef ref) {
-    final selectedDate = ref.watch(dateProvider);
-    final currentDate = DateTime.now();
-    final List<Task> filteredTasks = [];
-    for (var task in tasks) {
-      if (!task.isCompleted) {
-        final isTaskDay = Helpers.isTaskFromSelectedDate(task, currentDate);
-        filteredTasks.add(task);
-        // if (isTaskDay) {
-        //   filteredTasks.add(task);
-        // }
-      }
-    }
-    return filteredTasks;
   }
 
   List<Task> _filterTasks(
@@ -161,38 +115,24 @@ class HomeScreen extends ConsumerWidget {
 
     for (var task in tasks) {
       final isTaskDay = Helpers.isTaskFromSelectedDate(task, currentDate);
-      if ((isCompleted && task.isCompleted ||
-              !isCompleted && !task.isCompleted) &&
-          (option == 0 ||
-              (option == 1 && isTaskDay) ||
-              (option == 2 && !isTaskDay))) {
-        if (search == '') {
+      final isFutureTaskDay = Helpers.isTaskFromFutureDate(task, currentDate);
+      bool shouldAddTask = false;
+      if (option == 0) {
+        shouldAddTask = true;
+      } else if (option == 1) {
+        shouldAddTask = isTaskDay;
+      } else if (option == 2) {
+        shouldAddTask = isFutureTaskDay;
+      }
+
+      if (shouldAddTask && task.isCompleted == isCompleted) {
+        if (search.isEmpty ||
+            task.title.toLowerCase().contains(search.toLowerCase())) {
           filteredTasks.add(task);
-        } else {
-          if (task.title.toLowerCase().contains(search.toLowerCase())) {
-            filteredTasks.add(task);
-          }
         }
       }
     }
 
     return filteredTasks;
-  }
-
-  void sendNotification(Task task) async {
-    final NotificationService notificationService = NotificationService();
-
-    // Parse task date and time to DateTime object
-    DateTime taskDateTime = DateTime.parse('${task.date} ${task.time}');
-
-    // Calculate notification time
-    DateTime notificationTime = taskDateTime.subtract(Duration(minutes: 10));
-
-    // Send notification
-    await notificationService.scheduleNotification(
-      'Task Reminder',
-      'Your task "${task.title}" is due in 10 minutes',
-      notificationTime,
-    );
   }
 }

@@ -33,6 +33,11 @@ class Helpers {
     return false;
   }
 
+  static bool isTaskFromFutureDate(Task task, DateTime selectedDate) {
+    final DateTime taskDate = _stringToDateTime(task.date);
+    return taskDate.isAfter(selectedDate);
+  }
+
   static DateTime _stringToDateTime(String dateString) {
     try {
       DateFormat format = DateFormat.yMMMd();

@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todoapp/data/data.dart';
 import 'package:todoapp/providers/providers.dart';
-import 'package:todoapp/utils/utils.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class AppAlerts {

@@ -7,8 +7,6 @@ class SearchBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSearchProviderActive = ref.watch(searchProvider).search;
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(

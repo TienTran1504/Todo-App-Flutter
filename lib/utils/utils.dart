@@ -4,7 +4,5 @@ export 'helpers.dart';
 export 'db_keys.dart';
 export 'task_keys.dart';
 export 'app_alert.dart';
-export 'notification.dart';
-export 'task_notification_manager.dart';
 export 'notification_manager.dart';
 export 'local_notifications.dart';

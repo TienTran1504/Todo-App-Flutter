@@ -12,7 +12,6 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = context.textTheme;
     final double iconOpacity = task.isCompleted ? 0.3 : 0.5;
-    final backgroundOpacity = task.isCompleted ? 0.1 : 0.3;
     final textDecoration =
         task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none;
     final fontWeight = task.isCompleted ? FontWeight.normal : FontWeight.bold;
@@ -71,6 +70,5 @@ class TaskTile extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

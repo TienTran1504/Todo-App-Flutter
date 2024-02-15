@@ -15,7 +15,6 @@ class HomeScreen extends ConsumerWidget {
   static HomeScreen builder(BuildContext context, GoRouterState state) =>
       const HomeScreen();
   const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colorScheme;
@@ -104,6 +103,17 @@ class HomeScreen extends ConsumerWidget {
                         child: DisplayWhiteText(text: 'Add New Task'),
                       ),
                     ),
+                    const Gap(20),
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.notification_add_outlined),
+                      onPressed: () async {
+                        // NotificationManager().simpleNotificationShow();
+                        // LocalNotifications.showSimpleNotification(
+                        //     title: 'title', body: 'body', payload: 'payload');
+                        await LocalNotifications.scheduleNotification();
+                      },
+                      label: Text('simple'),
+                    )
                   ],
                 ),
               ),
@@ -167,5 +177,22 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return filteredTasks;
+  }
+
+  void sendNotification(Task task) async {
+    final NotificationService notificationService = NotificationService();
+
+    // Parse task date and time to DateTime object
+    DateTime taskDateTime = DateTime.parse('${task.date} ${task.time}');
+
+    // Calculate notification time
+    DateTime notificationTime = taskDateTime.subtract(Duration(minutes: 10));
+
+    // Send notification
+    await notificationService.scheduleNotification(
+      'Task Reminder',
+      'Your task "${task.title}" is due in 10 minutes',
+      notificationTime,
+    );
   }
 }

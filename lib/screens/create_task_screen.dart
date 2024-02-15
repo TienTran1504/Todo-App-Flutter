@@ -99,6 +99,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         AppAlerts.displaySnackbar(context, 'Task created successfully');
         context.go(RouteLocation.home);
       });
+      LocalNotifications.scheduleNotificationForTask(task);
     } else {
       AppAlerts.displaySnackbar(context, 'Task title cannot be empty');
     }

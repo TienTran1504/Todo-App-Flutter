@@ -38,6 +38,13 @@ class HomeScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const Gap(20),
+                  const DisplayWhiteText(
+                    text: 'TODO LIST',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  const Gap(5),
                   InkWell(
                     // onTap: () => Helpers.selectDate(context, ref),
                     child: DisplayWhiteText(
@@ -45,11 +52,6 @@ class HomeScreen extends ConsumerWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.normal,
                     ),
-                  ),
-                  const DisplayWhiteText(
-                    text: 'My Todo List',
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ],
               ),
@@ -75,10 +77,6 @@ class HomeScreen extends ConsumerWidget {
                       tasks: incompletedTasks,
                     ),
                     const Gap(20),
-                    // const Text(
-                    //   'Completed',
-                    //   style: context.textTheme.headlineMedium,
-                    // ),
                     Text(
                       'Completed',
                       style: context.textTheme.headlineSmall,
@@ -97,7 +95,10 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: DisplayWhiteText(text: 'Add New Task'),
+                        child: DisplayWhiteText(
+                          text: 'Add New Task',
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ],
